@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
-import Loader from "../../shared/Loader"
+import Loader from "../../shared/Loader";
 
 const QuizResults = () => {
   const { user } = useContext(AuthContext);
@@ -14,15 +14,15 @@ const QuizResults = () => {
         .then((res) => res.json())
         .then((data) => {
           // Assuming each result has a `date` field to sort by
-          console.log(data);
           if (data && data.length > 0) {
             const sortedResults = data.sort(
               (a, b) => new Date(b.date) - new Date(a.date)
             );
             setResults(sortedResults[0]); // Set only the most recent result
           }
-        });
-      setLoading(false);
+        })
+        .catch((error) => console.log(error.message))
+        .finally(() => setLoading(false));
     }
   }, [user?.email]);
 
@@ -47,7 +47,7 @@ const QuizResults = () => {
   }
 
   return (
-    <section className="md:w-10/12 w-[90%] md:flex-row flex-col mx-auto">
+    <section className="md:w-10/12 w-[90%] mb-8 md:flex-row flex-col mx-auto">
       <div className="w-9/12 mx-auto mt-12 text-center">
         <h1 className="text-2xl font-bold text-black">Quiz Completed!</h1>
         <p className="text-lg mt-4 text-gray-500">
@@ -61,11 +61,11 @@ const QuizResults = () => {
           <span className="text-red-400">{formatDate(results?.date)}</span>
         </p>
         <div className="mt-4">
-          <h2 className="text-xl font-semibold text-blue-600">Summary</h2>
-          <ul className="text-left mt-2 text-black">
+          <h2 className="text-xl font-semibold text-blue-600 border-b-2 border-green-500">Summary</h2>
+          <ul className="text-left mt-6 text-black">
             {results?.userSelections?.map((selection, index) => (
-              <li key={index} className="mt-2">
-                <p className="text-gray-800">{selection.question}</p>
+              <li key={index} className="mt-2 border-b border-gray-500 mb-4">
+                <p className="text-gray-800 font-semibold">{index+1}. {selection.question}</p>
                 <p>
                   <span className="font-semibold">Your Answer:</span>{" "}
                   {selection.selectedAnswer}

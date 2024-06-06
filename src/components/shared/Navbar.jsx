@@ -14,10 +14,10 @@ const Navbar = () => {
       <nav className="flex justify-between items-center md:w-5/6 w-full px-5 md:px-0 mx-auto">
         <div className="text-zinc-800 font-bold uppercase">
           <Link to="/">
-            <h1 className="text-2xl">
+            <h1 className="text-xl md:text-2xl">
               Question <span className="text-green-700">Bank</span>
             </h1>
-            <p className="text-[14px] font-normal capitalize -mt-1">
+            <p className="text-[12px] md:text-[14px] font-normal capitalize -mt-1">
               Assurance questions bank 2024
             </p>
           </Link>
@@ -40,7 +40,7 @@ const Navbar = () => {
           </div>
         ) : (
           <Link
-            className="bg-green-600 font-semibold text-sm px-5 py-1 rounded text-white "
+            className="bg-green-600 font-semibold text-sm px-5 py-2 rounded text-white "
             to="/login"
           >
             Login

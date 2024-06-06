@@ -62,10 +62,10 @@ const SignUp = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen sm:py-12 mt-12 md:mt-4">
-      <div className="border-2 border-green-500 flex flex-col max-w-md p-6 rounded-md sm:p-5 w-full bg-gray-100 text-gray-900">
+      <div className="border-2 border-green-500 flex flex-col max-w-md md:max-w-[45%] p-6 rounded-md sm:p-5 w-full bg-gray-100 text-gray-900">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
-          <p className="text-sm text-gray-400">Welcome to our quiz bank</p>
+          <p className="text-sm text-gray-500 font-semibold">Welcome to our quiz bank</p>
         </div>
         {error && (
           <p className="text-red-400 text-sm mb-4 text-center">{error}</p>
@@ -222,7 +222,7 @@ const SignUp = () => {
         </div>
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-          <p className="px-3 text-sm dark:text-gray-400">
+          <p className="px-3 text-sm dark:text-gray-500">
             Sign Up with social accounts
           </p>
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
@@ -232,11 +232,11 @@ const SignUp = () => {
 
           <p>Continue with Google</p>
         </div>
-        <p className="px-6 text-sm text-center text-gray-400">
+        <p className="px-6 text-sm text-center text-gray-500 font-semibold">
           Have an account?{" "}
           <Link
             to="/login"
-            className="hover:underline hover:text-green-500 text-gray-600"
+            className="hover:underline hover:text-green-500 text-gray-600 font-semibold"
           >
             Log In
           </Link>

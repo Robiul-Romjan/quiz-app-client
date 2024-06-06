@@ -36,13 +36,13 @@ const Login = () => {
       .finally(() => {
         setLoading(false);
       });
-  };
+  }; 
   return (
     <div className="flex justify-center items-center min-h-screen sm:py-12">
       <div className="flex flex-col border-green-500 border-2 max-w-md p-6 rounded-md sm:p-5 w-full bg-gray-100 text-gray-900">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Log In</h1>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-500 font-semibold">
             Sign in to access your account
           </p>
         </div>

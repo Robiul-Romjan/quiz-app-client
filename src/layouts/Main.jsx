@@ -5,8 +5,10 @@ const Main = () => {
   return (
     <div className="bg-white">
       <Navbar />
-      <Outlet />
-      <footer className="py-5 mt-12 text-center text-sm">
+      <div className="min-h-[calc(100vh-120px)] w-full">
+        <Outlet />
+      </div>
+      <footer className="py-5 text-center text-sm bg-gray-200 text-gray-600">
         Copyright © 2024 Question Bank All Rights Reserved.
       </footer>
     </div>
