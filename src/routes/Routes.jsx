@@ -12,6 +12,8 @@ import ManageUsers from "../components/pages/Dashboard/ManageUsers";
 import QuizResults from "../components/pages/Dashboard/QuizResults";
 import ManageQuiz from "../components/pages/Dashboard/ManageQuiz";
 import MyQuizzes from "../components/pages/Dashboard/MyQuizzes";
+import Exams from "../components/pages/Dashboard/Exams";
+import Students from "../components/pages/Dashboard/Students";
 
 export const router = createBrowserRouter([
     {
@@ -23,7 +25,7 @@ export const router = createBrowserRouter([
             element: <Home />,
           },
           {
-            path: "/quiz",
+            path: "/quiz/:category",
             element: <PrivateRoute><QuizPage /></PrivateRoute>,
           },
           {
@@ -63,6 +65,14 @@ export const router = createBrowserRouter([
         {
           path: "/dashboard/quiz-results",
           element: <QuizResults />
+        },
+        {
+          path: "/dashboard/exams",
+          element: <Exams />
+        },
+        {
+          path: "/dashboard/students",
+          element: <Students />
         },
       ]
     }

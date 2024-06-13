@@ -1,12 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  FaBars,
-  FaBookmark,
-  FaCheck,
-  FaHome,
-  FaUser,
-  FaUtensils,
-} from "react-icons/fa";
+import { FaBars, FaBookmark, FaCheck, FaHome, FaUser, FaUtensils } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { ImProfile } from "react-icons/im";
@@ -17,19 +10,16 @@ const DashboardLayout = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+
   useEffect(() => {
     setLoading(true);
     fetch("http://localhost:5000/users")
       .then((res) => res.json())
       .then((data) => {
-        const studentRole = data.find(
-          (student) => student?.email === user?.email
-        );
+        const studentRole = data.find((student) => student?.email === user?.email);
         setCurrentUser(studentRole);
       })
-      .catch((error) =>
-        setError(`Something Went Wrong, ${error.message}. Try again latter`)
-      )
+      .catch((error) => setError(`Something went wrong, ${error.message}. Try again later`))
       .finally(() => setLoading(false));
   }, [user?.email]);
 
@@ -41,12 +31,18 @@ const DashboardLayout = () => {
     );
   }
 
-  // console.log(error)
-
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open min-h-screen">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex bg-white">
+      <div className="drawer-content flex flex-col bg-white p-6">
+        {/* Sidebar toggle button */}
+        <label
+          htmlFor="my-drawer-2"
+          className="btn btn-primary drawer-button lg:hidden fixed top-4 left-4 z-50"
+        >
+          <FaBars size={24} />
+        </label>
+        
         {/* Page content here */}
         {error ? (
           <div className="w-full h-[90vh] flex items-center justify-center text-red-500 text-2xl">
@@ -55,50 +51,33 @@ const DashboardLayout = () => {
         ) : (
           <Outlet />
         )}
-
-        <label
-          htmlFor="my-drawer-2"
-          className="btn btn-primary drawer-button lg:hidden"
-        >
-          Open drawer
-        </label>
       </div>
-      <div className="drawer-side">
+      
+      <div className="drawer-side min-h-screen bg-gray-800 text-white">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="p-4 w-80 h-full bg-gray-700 text-white">
-          <div className="flex items-center gap-5">
-            <Link to="/">
-              <FaHome className="mb-12" color="red" size={30} />
+        <ul className="p-4 w-80 h-full">
+          <div className="flex items-center gap-4 mb-8">
+            <Link to="/" className="text-red-500">
+              <FaHome size={30} />
             </Link>
-            <h1 className="text-3xl text-green-600 font-semibold border-b-2 border-white mb-12">
-              Dashboard
-            </h1>
+            <h1 className="text-3xl font-bold text-green-500">Dashboard</h1>
           </div>
 
-          <li className="bg-gray-900 hover:bg-black rounded mb-4">
-            <NavLink
-              className="nav-link flex items-center gap-2 ms-6"
-              to="/dashboard"
-            >
+          <li className="mb-4">
+            <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard">
               <ImProfile /> Profile
             </NavLink>
           </li>
 
           {currentUser?.role === "Admin" && (
             <div>
-              <li className="bg-gray-900 hover:bg-black rounded mb-4">
-                <NavLink
-                  className="nav-link flex items-center gap-2 justify-center"
-                  to="/dashboard/manage-users"
-                >
+              <li className="mb-4">
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/manage-users">
                   <FaUser /> Manage Users
                 </NavLink>
               </li>
-              <li className="bg-gray-900 hover:bg-black rounded">
-                <NavLink
-                  className="nav-link flex items-center gap-2 justify-center"
-                  to="/dashboard/manage-quiz"
-                >
+              <li>
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/manage-quiz">
                   <FaBars /> Manage Quiz
                 </NavLink>
               </li>
@@ -107,20 +86,18 @@ const DashboardLayout = () => {
 
           {currentUser?.role === "Teacher" && (
             <div>
-              <li className="bg-gray-900 hover:bg-black rounded mb-4">
-                <NavLink
-                  className="nav-link flex items-center gap-2 justify-center"
-                  to="/dashboard/add-question"
-                >
-                  <FaUtensils />
-                  Add Question
+              <li className="mb-4">
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/students">
+                  <FaUser /> All Students
                 </NavLink>
               </li>
-              <li className="bg-gray-900 hover:bg-black rounded">
-                <NavLink
-                  className="nav-link flex items-center gap-2 justify-center"
-                  to="/dashboard/my-quizzes"
-                >
+              <li className="mb-4">
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/add-question">
+                  <FaUtensils /> Add Question
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/my-quizzes">
                   <FaCheck /> My Quizzes
                 </NavLink>
               </li>
@@ -129,11 +106,13 @@ const DashboardLayout = () => {
 
           {currentUser?.role === "Student" && (
             <div>
-              <li className="bg-gray-900 hover:bg-black rounded mb-4">
-                <NavLink
-                  className="nav-link flex items-center gap-2 justify-center"
-                  to="/dashboard/quiz-results"
-                >
+              <li className="mb-4">
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/exams">
+                  <FaBookmark /> Exams
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/quiz-results">
                   <FaBookmark /> Quiz Result & Summary
                 </NavLink>
               </li>

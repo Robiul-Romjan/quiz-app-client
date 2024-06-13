@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import Loader from "../shared/Loader";
@@ -16,12 +16,15 @@ const QuizPage = () => {
   const [error, setError] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
 
+  const { category } = useParams();
+  console.log(category)
+
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:5000/all-questions?num=5")
+    fetch(`http://localhost:5000/questions?category=${category}&num=10`)
       .then((res) => res.json())
       .then((data) => {
         setQuizzes(data);
@@ -31,7 +34,7 @@ const QuizPage = () => {
         setError(`Something Went Wrong, ${error.message}. Try again later`)
       )
       .finally(() => setLoading(false));
-  }, []);
+  }, [category]);
 
   const handleScoreUpdate = useCallback(
     (isCorrect, selectedOption) => {
@@ -80,6 +83,7 @@ const QuizPage = () => {
         score,
         userSelections: selections,
         date: new Date().toISOString(),
+        examName: category,
       };
 
       fetch("http://localhost:5000/add-results", {
@@ -105,7 +109,7 @@ const QuizPage = () => {
           console.error("Error saving results:", error);
         });
     },
-    [navigate, score, user?.email]
+    [category, navigate, score, user?.email]
   );
 
   useEffect(() => {

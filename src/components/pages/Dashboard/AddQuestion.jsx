@@ -21,12 +21,14 @@ const AddQuestion = () => {
     const third_option = form.third_option.value;
     const fourth_option = form.fourth_option.value;
     const answer = form.correct_option.value;
+    const category = form.category.value;
 
     const newQuestion = {
       question,
       options: [first_option, second_option, third_option, fourth_option],
       answer,
       createdBy: user?.email,
+      category
     };
 
     fetch("http://localhost:5000/add-question", {
@@ -160,6 +162,22 @@ const AddQuestion = () => {
             required
           />
         </div>
+
+        <div className="mt-6">
+              <label className="font-semibold text-black" htmlFor="category">
+                Question For :{" "}
+              </label>
+              <select
+                className="bg-white text-black"
+                name="category"
+                required
+              >
+                <option value="CSE">CSE</option>
+                <option value="EEE">EEE</option>
+                <option value="Textile">Textile</option>
+                <option value="BBA">BBA</option>
+              </select>
+            </div>
 
         <button
           className="btn bg-green-600 hover:bg-green-800 text-white mt-5 w-full"

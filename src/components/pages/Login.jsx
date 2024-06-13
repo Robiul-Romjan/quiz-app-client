@@ -28,7 +28,7 @@ const Login = () => {
           icon: "success",
           confirmButtonText: "Ok",
         });
-        navigate("/");
+        navigate("/dashboard");
       })
       .catch((error) => {
         setError(error.message);

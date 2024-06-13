@@ -1,33 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider";
-import CountDown from "../shared/CountDown";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [countdown, setCountdown] = useState(null); // State to manage countdown
-  const navigate = useNavigate();
-
-  const { user } = useContext(AuthContext);
-
-  useEffect(() => {
-    let timer;
-    if (countdown !== null) {
-      if (countdown > 0) {
-        timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      } else if (countdown === 0) {
-        navigate("/quiz"); // Navigate to /quiz page when countdown ends
-      }
-    }
-    return () => clearTimeout(timer); // Cleanup timeout on component unmount
-  }, [countdown, navigate, user]);
-
-  const startCountdown = () => {
-    if (!user) {
-      navigate("/login");
-    }
-    setCountdown(3); // Start countdown from 3 seconds
-  };
-
   return (
     <div className="w-full mx-auto text-center mb-8 md:mt-4 flex justify-center items-center min-h-[80vh]">
       <div className="w-full">
@@ -72,16 +45,13 @@ const Home = () => {
             </li>
           </ul>
         </div>
-        {countdown !== null ? (
-          <CountDown countdown={countdown} />
-        ) : (
-          <button
-            className="bg-green-600 px-20 py-2 text-white rounded font-semibold"
-            onClick={() => startCountdown()}
-          >
-            Start Quiz
-          </button>
-        )}
+
+        <Link
+          to={"/dashboard/exams"}
+          className="bg-green-600 px-20 py-2 text-white rounded font-semibold"
+        >
+          Attend Exam
+        </Link>
       </div>
     </div>
   );

@@ -50,7 +50,11 @@ const SignUp = () => {
                     icon: 'success',
                     confirmButtonText: 'Ok'
                   })
-                  navigate("/")
+                  if(data?.role === "Student"){
+                    navigate("/dashboard/exams");
+                  }else{
+                    navigate("/dashboard");
+                  }
                   setLoading(false)
                 }
               });
