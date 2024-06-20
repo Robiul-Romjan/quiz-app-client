@@ -60,31 +60,31 @@ const Students = () => {
       </div>
 
       <div className="overflow-x-auto mt-8">
-        <table className="table text-black">
-          <thead>
-            <tr className="text-gray-500 font-semibold text-sm">
-              <th>#</th>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Department</th>
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700 border-b border-gray-200">#</th>
+              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700 border-b border-gray-200">Id</th>
+              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700 border-b border-gray-200">Name</th>
+              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700 border-b border-gray-200">Email</th>
+              <th className="py-3 px-6 text-left text-sm font-medium text-gray-700 border-b border-gray-200">Department</th>
             </tr>
           </thead>
           <tbody>
             {error ? (
               <tr>
-                <td colSpan="5" className="text-center mt-8 font-bold">
-                  {error}
+                <td colSpan="5" className="py-4 text-center text-red-600 font-semibold">
+                  Student Not found
                 </td>
               </tr>
             ) : (
               users.map((user, i) => (
-                <tr key={user._id}>
-                  <th>{i + 1}</th>
-                  <td>{user?.id}</td>
-                  <td>{user?.name}</td>
-                  <td>{user?.email}</td>
-                  <td>{user?.department}</td>
+                <tr key={user._id} className="hover:bg-gray-100 transition-colors">
+                  <td className="py-3 px-6 border-b border-gray-200">{i + 1}</td>
+                  <td className="py-3 px-6 border-b border-gray-200">{user?.id}</td>
+                  <td className="py-3 px-6 border-b border-gray-200">{user?.name}</td>
+                  <td className="py-3 px-6 border-b border-gray-200">{user?.email}</td>
+                  <td className="py-3 px-6 border-b border-gray-200">{user?.department}</td>
                 </tr>
               ))
             )}

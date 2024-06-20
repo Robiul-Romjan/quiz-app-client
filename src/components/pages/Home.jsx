@@ -1,6 +1,40 @@
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import Loader from "../shared/Loader";
 
 const Home = () => {
+  const {user} = useContext(AuthContext); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((data) => {
+        const studentRole = data.find(
+          (student) => student?.email === user?.email
+        );
+        setCurrentUser(studentRole);
+      })
+      .catch((error) =>
+        setError(`Something went wrong, ${error.message}. Try again later`)
+      )
+      .finally(() => setLoading(false));
+  }, [user?.email]);
+
+
+  if (loading) {
+    return (
+      <div className="w-full h-[100vh] flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full mx-auto text-center mb-8 md:mt-4 flex justify-center items-center min-h-[80vh]">
       <div className="w-full">
@@ -46,12 +80,31 @@ const Home = () => {
           </ul>
         </div>
 
-        <Link
+        {
+          currentUser?.role === "Student" || !currentUser ? <Link
           to={"/dashboard/exams"}
           className="bg-green-600 px-20 py-2 text-white rounded font-semibold"
         >
           Attend Exam
+        </Link> : ""
+        }
+        {
+          currentUser?.role === "Teacher" && <Link
+          to={"/dashboard"}
+          className="bg-green-600 px-20 py-2 text-white rounded font-semibold"
+        >
+          Go to Dashboard
         </Link>
+        }
+        {
+          currentUser?.role === "Admin" && <Link
+          to={"/dashboard"}
+          className="bg-green-600 px-20 py-2 text-white rounded font-semibold"
+        >
+          Go to Dashboard
+        </Link>
+        }
+
       </div>
     </div>
   );

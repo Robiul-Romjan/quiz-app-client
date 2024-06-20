@@ -73,13 +73,14 @@ const DashboardLayout = () => {
 
       <div className="drawer-side min-h-screen text-white">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="p-4 w-80 h-full mt-20 md:mt-0 bg-gray-400">
-          <div className="flex items-center gap-4 mb-8">
+        <ul className="p-4 w-80 h-full mt-20 md:mt-0 bg-gray-600">
+          <div className="flex items-center gap-4">
             <Link to="/" className="text-red-500">
               <FaHome size={30} />
             </Link>
             <h1 className="text-3xl font-bold text-green-500">Dashboard</h1>
           </div>
+          <div className="bg-gray-300 h-[2px] w-full mb-12 mt-4"></div>
 
           <li className="mb-4">
             <NavLink

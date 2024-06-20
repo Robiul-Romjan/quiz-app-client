@@ -59,55 +59,46 @@ const MyQuizzes = () => {
 
   return (
     <section className="md:w-9/12 w-[90%] mx-auto mt-12">
-      <h2 className="text-2xl md:text-2xl font-semibold text-center text-black">
+      <h2 className="text-2xl md:text-3xl font-semibold text-center text-black mb-4">
         Manage My Quizzes
       </h2>
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-2 mb-8">
         <div className="h-1 w-36 bg-green-500"></div>
         <span className="text-red-500 font-semibold">Questions</span>
         <div className="h-1 w-36 bg-green-500"></div>
       </div>
-      <div className="mt-8">
-        <div className="min-w-full divide-y divide-gray-200">
-          <div className="bg-white divide-y divide-gray-500">
-            {questions.map((question, index) => (
-              <div key={question._id}>
-                <div className="px-6 whitespace-nowrap text-black mt-4">
-                  <h2 className="font-semibold">
-                    {" "}
-                    <span className="text-green-500">
-                      Question {index + 1}
-                    </span>{" "}
-                    : {question?.question}
-                  </h2>
-                  <ul>
-                    <span className="font-semibold">Options:</span>
-                    {question.options.map((option, i) => (
-                      <li className="ms-8" key={i}>
-                        {option}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="px-6 mb-4 whitespace-nowrap">
-                  <button
-                    // onClick={() => handleUpdate(question._id)}
-                    className="text-blue-600 hover:text-blue-900 mr-4 font-semibold"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => handleDelete(question._id)}
-                    className="text-red-600 hover:text-red-900 font-semibold"
-                  >
-                    Delete
-                  </button>
-                </div>
+      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        {questions.map((question, index) => (
+          <div key={question._id} className="border-t border-gray-200">
+            <div className="px-4 py-5 sm:px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                Question {index + 1}: {question.question}
+              </h3>
+              <div className="mt-2 max-w-xl text-sm text-gray-500">
+                <p><strong>Options:</strong></p>
+                <ul className="list-disc list-inside pl-5">
+                  {question.options.map((option, i) => (
+                    <li key={i}>{option}</li>
+                  ))}
+                </ul>
               </div>
-            ))}
+              <div className="mt-5 sm:flex sm:justify-between">
+                <button
+                  // onClick={() => handleUpdate(question._id)}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => handleDelete(question._id)}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );
