@@ -71,9 +71,9 @@ const DashboardLayout = () => {
         )}
       </div>
 
-      <div className="drawer-side min-h-screen bg-gray-800 text-white">
+      <div className="drawer-side min-h-screen text-white">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="p-4 w-80 h-full">
+        <ul className="p-4 w-80 h-full mt-20 md:mt-0 bg-gray-400">
           <div className="flex items-center gap-4 mb-8">
             <Link to="/" className="text-red-500">
               <FaHome size={30} />
@@ -155,7 +155,7 @@ const DashboardLayout = () => {
                   className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors"
                   to="/dashboard/quiz-results"
                 >
-                  <FaBookmark /> Quiz Result & Summary
+                  <FaBookmark /> Quiz Summary
                 </NavLink>
               </li>
             </div>

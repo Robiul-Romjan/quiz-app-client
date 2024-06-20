@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Loader from "../../shared/Loader";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 const QuizResults = () => {
   const { user } = useContext(AuthContext);
@@ -12,15 +13,7 @@ const QuizResults = () => {
       setLoading(true);
       fetch(`http://localhost:5000/my-results?email=${user.email}`)
         .then((res) => res.json())
-        .then((data) => {
-          // Assuming each result has a `date` field to sort by
-          if (data && data.length > 0) {
-            const sortedResults = data.sort(
-              (a, b) => new Date(b.date) - new Date(a.date)
-            );
-            setResults(sortedResults[0]); // Set only the most recent result
-          }
-        })
+        .then((data) => setResults(data))
         .catch((error) => console.log(error.message))
         .finally(() => setLoading(false));
     }
@@ -48,44 +41,38 @@ const QuizResults = () => {
 
   return (
     <section className="md:w-10/12 w-[90%] mb-8 md:flex-row flex-col mx-auto">
-      <div className="w-9/12 mx-auto mt-12 text-center">
-        <h1 className="text-2xl font-bold text-black">Quiz Completed!</h1>
-        <p className="text-lg mt-4 text-gray-500">
+      <div className="w-full mx-auto mt-12 text-center">
+        <h1 className="text-3xl font-bold text-black">Quiz Completed!</h1>
+        <p className="text-lg mt-4 text-gray-600">
           Thank you for participating.
         </p>
-        <p className="text-lg mt-4 text-black">
-          Your Score: <span className="text-green-600">{results?.score}</span>
-        </p>
-        <p className="text-lg mt-4 text-black">
-          Participent Date:{" "}
-          <span className="text-red-400">{formatDate(results?.date)}</span>
-        </p>
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold text-blue-600 border-b-2 border-green-500">Summary</h2>
-          <ul className="text-left mt-6 text-black">
-            {results?.userSelections?.map((selection, index) => (
-              <li key={index} className="mt-2 border-b border-gray-500 mb-4">
-                <p className="text-gray-800 font-semibold">{index+1}. {selection.question}</p>
-                <p>
-                  <span className="font-semibold">Your Answer:</span>{" "}
-                  {selection.selectedAnswer}
-                </p>
-                <p>
-                  <span className="font-semibold">Correct Answer:</span>{" "}
-                  {selection.correctAnswer}
-                </p>
-                <p>
-                  <span
-                    className={`font-semibold ${
-                      selection.isCorrect ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {selection.isCorrect ? "Correct" : "Incorrect"}
-                  </span>
-                </p>
-              </li>
+        <div className="mt-6">
+          <h2 className="text-2xl font-semibold text-blue-700 border-b-2 border-green-500 inline-block">Summary</h2>
+          <div className="mt-6 space-y-8">
+            {results?.map((exam) => (
+              <div key={exam._id} className="p-6 bg-white shadow-md rounded-lg border border-gray-200">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Exam Name: {exam?.examName}</h3>
+                <p className="text-gray-600 mb-4">Given Date: {formatDate(exam?.date)}</p>
+                <div className="space-y-4">
+                  {exam?.userSelections.map((selection, i) => (
+                    <div key={i} className="p-4 bg-gray-100 rounded-lg">
+                      <p className="font-medium text-gray-700">Question: {selection?.question}</p>
+                      <p className="text-green-600">Correct Answer: {selection?.correctAnswer}</p>
+                      <p className="text-blue-600">Your Answer: {selection?.selectedAnswer}</p>
+                      <p className="flex items-center">
+                        {selection?.isCorrect ? (
+                          <FaCheckCircle className="text-green-500 mr-2" />
+                        ) : (
+                          <FaTimesCircle className="text-red-500 mr-2" />
+                        )}
+                        {selection?.isCorrect ? "Correct" : "Wrong"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </section>
