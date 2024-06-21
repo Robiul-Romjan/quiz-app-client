@@ -13,8 +13,8 @@ const Exams = () => {
 
   const startQuiz = (path) => {
     Swal.fire({
-      title: "Are you Ready?",
-      text: "After click start quiz will be start!",
+      title: "Are you ready?",
+      text: "Once you click start, the quiz will begin!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -28,7 +28,7 @@ const Exams = () => {
   };
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetch(`http://localhost:5000/my-results?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => setResults(data))
@@ -41,39 +41,47 @@ const Exams = () => {
 
   if (loading) {
     return (
-      <div className="w-full h-[100vh] flex justify-center items-center">
+      <div className="w-full h-screen flex justify-center items-center">
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className="w-[90%] mx-auto mt-12 mb-8">
-      <div className="grid grid-cols-2 gap-8 w-full">
+    <div className="container mx-auto mt-12 mb-8">
+      <h2 className="text-3xl font-semibold text-center text-black mb-8">
+        Available Exams
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {[
           { name: "CSE", img: "/cse.jpeg", path: "/quiz/CSE" },
           { name: "EEE", img: "/eee.jpeg", path: "/quiz/EEE" },
           { name: "Textile", img: "/textile.jpeg", path: "/quiz/Textile" },
           { name: "BBA", img: "/bba.jpeg", path: "/quiz/BBA" },
         ].map((exam) => (
-          <div key={exam.name} className="h-[300px] border-2 border-green-600 flex flex-col">
-            <img className="w-full h-[200px]" src={exam.img} alt={exam.name} />
-            <div className="flex flex-col items-baseline flex-grow">
-              <div className="w-full px-4">
-                <h1 className="text-xl font-semibold text-black">{exam.name}</h1>
-                <div className="flex justify-between">
-                  <p>Quiz: 10</p>
-                  <p>Mark: 50</p>
+          <div key={exam.name} className="relative shadow-lg rounded-lg overflow-hidden">
+            <img className="w-full h-48 object-cover" src={exam.img} alt={exam.name} />
+            <div className="p-4 flex flex-col justify-between h-36">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">{exam.name}</h3>
+                <div className="flex justify-between text-gray-600">
+                  <span>Quiz: 10</span>
+                  <span>Mark: 50</span>
                 </div>
               </div>
               <button
-                className="bg-green-500 text-white w-full p-2 font-semibold mt-auto disabled:bg-gray-400"
+                className={`mt-4 py-2 px-4 rounded-lg text-white font-semibold ${isExamCompleted(exam.name) ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600 transition"}`}
                 onClick={() => startQuiz(exam.path)}
                 disabled={isExamCompleted(exam.name)}
               >
                 {isExamCompleted(exam.name) ? "Completed" : "Start Quiz"}
               </button>
             </div>
+            {isExamCompleted(exam.name) && (
+              <div className="absolute top-0 right-0 bg-green-500 text-white py-1 px-2 rounded-bl-lg">
+                Completed
+              </div>
+            )}
           </div>
         ))}
       </div>

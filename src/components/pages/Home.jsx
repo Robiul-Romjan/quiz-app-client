@@ -35,6 +35,8 @@ const Home = () => {
     );
   }
 
+  console.log(error)
+
   return (
     <div className="w-full mx-auto text-center mb-8 md:mt-4 flex justify-center items-center min-h-[80vh]">
       <div className="w-full">

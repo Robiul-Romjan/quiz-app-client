@@ -1,16 +1,42 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import useDebounce from "../../hooks/useDebounce";
 
 const ManageStudentExam = () => {
   const [studentsExams, setStudentExams] = useState([]);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   useEffect(() => {
-    fetch("http://localhost:5000/all-exam-results")
-      .then((res) => res.json())
-      .then((data) => setStudentExams(data))
-      .catch((error) => setError(error.message));
-  }, []);
+    const fetchUsers = async () => {
+      setError("");
+      try {
+        let url = "http://localhost:5000/all-exam-results";
+        if (debouncedSearchQuery) {
+          const queryParam = isNaN(debouncedSearchQuery)
+            ? `name=${debouncedSearchQuery}`
+            : `id=${debouncedSearchQuery}`;
+          url += `?${queryParam}`;
+        }
+        const response = await fetch(url);
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "Error fetching users");
+        }
+        setStudentExams(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchUsers();
+  }, [debouncedSearchQuery]);
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value.trim());
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -30,7 +56,7 @@ const ManageStudentExam = () => {
           .then(() => {
             Swal.fire("Reset!", "This exam has been reset.", "success");
           })
-          .catch((error) => console.error("Error deleting question:", error));
+          .catch((error) => setError("Error deleting question:", error));
       }
     });
   };
@@ -53,6 +79,7 @@ const ManageStudentExam = () => {
           placeholder="Search by Id or Name"
           aria-label="Search"
           aria-describedby="button-addon1"
+          onChange={handleSearchChange}
         />
       </div>
 
