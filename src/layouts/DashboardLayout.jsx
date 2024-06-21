@@ -101,6 +101,14 @@ const DashboardLayout = () => {
                   <FaUser /> Manage Users
                 </NavLink>
               </li>
+              <li className="mb-4">
+                <NavLink
+                  className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors"
+                  to="/dashboard/manage-student-exams"
+                >
+                  <FaUser /> Manage Student Exams
+                </NavLink>
+              </li>
               <li>
                 <NavLink
                   className="flex items-center gap-2 px-4 py-2 rounded bg-gray-700 hover:bg-gray-600 transition-colors"

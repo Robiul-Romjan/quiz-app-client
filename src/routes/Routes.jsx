@@ -14,6 +14,7 @@ import ManageQuiz from "../components/pages/Dashboard/ManageQuiz";
 import MyQuizzes from "../components/pages/Dashboard/MyQuizzes";
 import Exams from "../components/pages/Dashboard/Exams";
 import Students from "../components/pages/Dashboard/Students";
+import ManageStudentExam from "../components/pages/Dashboard/ManageStudentExam";
 
 export const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
         {
           path: "/dashboard/manage-users",
           element: <ManageUsers />
+        },
+        {
+          path: "/dashboard/manage-student-exams",
+          element: <ManageStudentExam />
         },
         {
           path: "/dashboard/manage-quiz",

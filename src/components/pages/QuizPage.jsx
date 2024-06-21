@@ -14,10 +14,10 @@ const QuizPage = () => {
   const [score, setScore] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const { category } = useParams();
-  console.log(category)
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -76,10 +76,30 @@ const QuizPage = () => {
     }
   }, [currentQuizIndex, quizzes, selectedOption, handleScoreUpdate]);
 
+  useEffect(() => {
+    setLoading(true);
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((data) => {
+        const studentRole = data.find(
+          (student) => student?.email === user?.email
+        );
+        setCurrentUser(studentRole);
+      })
+      .catch((error) =>
+        setError(`Something went wrong, ${error.message}. Try again later`)
+      )
+      .finally(() => setLoading(false));
+  }, [user?.email]);
+
+  
+
   const saveResults = useCallback(
     (selections) => {
       const results = {
-        email: user?.email,
+        id: currentUser?.id,
+        name: currentUser?.name,
+        email: currentUser?.email,
         score,
         userSelections: selections,
         date: new Date().toISOString(),
@@ -109,7 +129,7 @@ const QuizPage = () => {
           console.error("Error saving results:", error);
         });
     },
-    [category, navigate, score, user?.email]
+    [category, currentUser?.email, currentUser?.id, currentUser?.name, navigate, score]
   );
 
   useEffect(() => {
