@@ -41,7 +41,7 @@ const Home = () => {
     <div className="w-full mx-auto text-center mb-8 md:mt-4 flex justify-center items-center min-h-[80vh]">
       <div className="w-full">
         <h1 className="text-center my-8 text-3xl text-black font-bold">
-          Welcome to Question Bank
+          Welcome to Online Question Bank
         </h1>
         <div className="lg:w-[75%] xl:w-[70%] md:w-[90%] w-[90%] mx-auto text-left">
           <h1 className="text-md text-gray-800 text-center text-xl">

@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import UAParser from "ua-parser-js";
 
 const SignUp = () => {
   const [show, setShow] = useState(true);
@@ -21,6 +22,17 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+
+     // Capture device information
+     const parser = new UAParser();
+     const uaResult = parser.getResult();
+     const deviceInfo = {
+       browser: uaResult.browser,
+       os: uaResult.os,
+       device: uaResult.device,
+     };
+
+     console.log(deviceInfo)
     setLoading(true)
     createUser(data.email, data.password)
       .then(() => {
@@ -33,6 +45,7 @@ const SignUp = () => {
               department: data.department,
               role: data.role,
               id: data.id,
+              deviceInfo,
             };
             fetch("http://localhost:5000/users", {
               method: "POST",
@@ -127,8 +140,8 @@ const SignUp = () => {
                 required
               >
                 <option value="cse">CSE</option>
-                <option value="cse">BBA</option>
-                <option value="cse">EEE</option>
+                <option value="bba">BBA</option>
+                <option value="eee">EEE</option>
               </select>
             </div>
             <div>
